@@ -13,8 +13,6 @@ WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, 25200L);  // 25200L is 25200 second offset for GMT+7
 
 void setup() {
-    initScreen();
-
     // Connect to WiFi
     WiFi.begin(ssid, password);
     while (WiFi.status() != WL_CONNECTED) {
@@ -23,24 +21,20 @@ void setup() {
     }
     Serial.println("Connected to WiFi");
 
-    // Initialize NTP client
-    timeClient.begin();
+    // Initialize devices
+    initScreen();        // Screen
+    timeClient.begin();  // NTP client
 }
 
 void loop() {
-    // Update the time client
-    timeClient.update();
-
     // Get current time
+    timeClient.update();
     int hours = timeClient.getHours();
     int minutes = timeClient.getMinutes();
 
-    // Print current time in "HH:MM" format
-    char formattedTime[5];
+    // Update screen
+    updateClock(hours, minutes);
+    updateRingGauge(360);
 
-    // Format current time in "HH:MM" format and store it in formattedTime
-    sprintf(formattedTime, "%02d:%02d", hours, minutes);
-
-    updateClock(formattedTime);
     delay(1000);  // Update every second
 }
