@@ -13,7 +13,7 @@ int screenWidth = mainScreen.width();    // 240
 int screenHeight = mainScreen.height();  // 240
 int midScreenCoordinate = screenWidth / 2;
 
-// Sprite configuration
+// Sprite frame size configuration
 int spriteClockSize[] = {140, 50};  // Width x Height
 
 void initScreen(void) {
@@ -27,7 +27,12 @@ void initScreen(void) {
 }
 
 void updateClock(String timeNow) {
-    spriteClock.fillScreen(TFT_TRANSPARENT);  // Reset content on the screen
+    if (timeNow == "") {
+        return;
+    }
+
+    // Reset content on the screen
+    spriteClock.fillScreen(TFT_TRANSPARENT);
 
     // Draw time information
     spriteClock.drawString(timeNow, 0, 0, 7);
