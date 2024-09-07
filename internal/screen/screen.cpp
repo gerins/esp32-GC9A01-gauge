@@ -37,7 +37,9 @@ void initScreen(void) {
 // updateRingGauge receive temperature value
 void updateRingGauge(int temperature, int altitude) {
     // Reset content on the screen
-    ringGaugeSprite.fillScreen(TFT_TRANSPARENT);
+    ringGaugeSprite.fillSprite(TFT_TRANSPARENT);
+
+    delay(10);
 
     /* Attention
         1. Start radius and end radius cannot be same
@@ -52,6 +54,7 @@ void updateRingGauge(int temperature, int altitude) {
     int gaugeValue = map(temperature, 0, 120, startRadius + 1, endRadius);  // Remap temperature value, 0 - 120C range to radius value
     ringGaugeSprite.drawSmoothArc(midScreenCoordinate, midScreenCoordinate, maxCircleRadius, ringThickness, startRadius, gaugeValue, TFT_RED, TFT_RED, false);
     Serial.printf("temperature and gauge %d %d \n", temperature, gaugeValue);
+    delay(10);
 
     // Draw Arc (Lingkaran Cincin Kanan)
     startRadius = 225;                                                // Jam 1:30
@@ -59,6 +62,7 @@ void updateRingGauge(int temperature, int altitude) {
     gaugeValue = map(altitude, 1500, 0, startRadius, endRadius - 1);  // Remap altitude value 0 - 1500 MDPL range to radius value
     ringGaugeSprite.drawSmoothArc(midScreenCoordinate, midScreenCoordinate, maxCircleRadius, ringThickness, gaugeValue, endRadius, TFT_BLUE, TFT_BLUE, false);
     Serial.printf("alt and gauge %d %d \n", altitude, gaugeValue);
+    delay(10);
 
     // Display information to screen
     ringGaugeSprite.pushSprite(0, 0, TFT_TRANSPARENT);  // Display information to screen
