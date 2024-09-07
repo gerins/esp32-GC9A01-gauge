@@ -79,7 +79,7 @@ WiFiUDP ntpUDP;
 // By default 'pool.ntp.org' is used with 60 seconds update interval and no offset
 // Documentation https://github.com/arduino-libraries/NTPClient
 // 25200L is 25200 second offset for GMT+7
-NTPClient timeClient(ntpUDP, "pool.ntp.org", 25200L, 60000);
+NTPClient timeClient(ntpUDP, "id.pool.ntp.org", 25200L, 6000000);
 
 void setup() {
     Serial.begin(115200);
@@ -151,13 +151,17 @@ void setup() {
     // Initialize devices
     // initScreen();        // Screen
     timeClient.begin();  // NTP real time clock client
-    timeClient.forceUpdate();
+
+while (!timeClient.isTimeSet()) {
+  timeClient.forceUpdate();
+}
 }
 
 void loop() {
     // Get current time
     timeClient.update();
 
+    // int seconds = timeClient.getSeconds();
     // int hours = timeClient.getHours();
     // int minutes = timeClient.getMinutes();
 
